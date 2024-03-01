@@ -81,6 +81,7 @@ import (
 	v17 "github.com/CosmosContracts/juno/v19/app/upgrades/v17"
 	v18 "github.com/CosmosContracts/juno/v19/app/upgrades/v18"
 	v19 "github.com/CosmosContracts/juno/v19/app/upgrades/v19"
+	"github.com/CosmosContracts/juno/v19/app/webhost"
 	"github.com/CosmosContracts/juno/v19/docs"
 )
 
@@ -605,6 +606,7 @@ func (app *App) RegisterAPIRoutes(apiSvr *api.Server, _ config.APIConfig) {
 	// register app's OpenAPI routes.
 	apiSvr.Router.Handle("/static/openapi.yml", http.FileServer(http.FS(docs.Docs)))
 	apiSvr.Router.HandleFunc("/", openapiconsole.Handler(Name, "/static/openapi.yml"))
+	apiSvr.Router.HandleFunc("/webhost/{contract}/{name}/{path:.*}", webhost.Handler())
 }
 
 // RegisterTxService implements the Application.RegisterTxService method.
